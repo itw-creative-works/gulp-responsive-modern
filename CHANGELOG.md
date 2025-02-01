@@ -17,4 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ---
 ## [0.0.1] - 2025-02-01
 ### Changed
-- Updated `sharp` to `0.33.5`
+- `package.json`
+  - Changed `sharp` to `0.33.5`
+- `sharp.js`
+  - Changedv `const image = sharp(file.contents)` to `const image = sharp(file.path)`
