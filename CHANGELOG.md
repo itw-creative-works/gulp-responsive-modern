@@ -15,6 +15,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `Security` in case of vulnerabilities.
 
 ---
-## [1.0.0] - 2024-06-19
-### Added
-- Initial release of the project 🚀
+## [0.0.1] - 2025-02-01
+### Changed
+- Updated `sharp` to `0.33.5`
