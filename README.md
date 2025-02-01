@@ -1,99 +1,234 @@
-<p align="center">
-  <a href="https://__module_domain">
-    <img src="https://cdn.itwcreativeworks.com/assets/__asset_file_name/images/logo/__asset_file_name-brandmark-black-x.svg" width="100px">
-  </a>
-</p>
+# [gulp](http://gulpjs.com)-responsive [![Build Status](https://travis-ci.org/mahnunchik/gulp-responsive.svg?branch=master)](https://travis-ci.org/mahnunchik/gulp-responsive)
 
-<p align="center">
-  <img src="https://img.shields.io/github/package-json/v/__module_owner/__module_name.svg">
-  <br>
-  <img src="https://img.shields.io/librariesio/release/npm/__module_name.svg">
-  <img src="https://img.shields.io/bundlephobia/min/__module_name.svg">
-  <img src="https://img.shields.io/codeclimate/maintainability-percentage/__module_owner/__module_name.svg">
-  <img src="https://img.shields.io/npm/dm/__module_name.svg">
-  <img src="https://img.shields.io/node/v/__module_name.svg">
-  <img src="https://img.shields.io/website/https/__module_domain.svg">
-  <img src="https://img.shields.io/github/license/__module_owner/__module_name.svg">
-  <img src="https://img.shields.io/github/contributors/__module_owner/__module_name.svg">
-  <img src="https://img.shields.io/github/last-commit/__module_owner/__module_name.svg">
-  <br>
-  <br>
-  <a href="https://__module_domain">Site</a> | <a href="https://www.npmjs.com/package/__module_name">NPM Module</a> | <a href="https://github.com/__module_owner/__module_name">GitHub Repo</a>
-  <br>
-  <br>
-  <strong>__module_name</strong> is the official npm module of <a href="https://__module_domain">__module_title</a>, a free app for __module_feature.
-</p>
+[![Greenkeeper badge](https://badges.greenkeeper.io/mahnunchik/gulp-responsive.svg)](https://greenkeeper.io/)
 
-## 🌐 __module_title Works in Node AND browser environments
-Yes, this module works in both Node and browser environments, including compatibility with [Webpack](https://www.npmjs.com/package/webpack) and [Browserify](https://www.npmjs.com/package/browserify)!
+> Generates images at different sizes
 
-## 🦄 Features
-* __module_feature
+## Installation
 
-## 🔑 Getting an API key
-You can use so much of `__module_name` for free, but if you want to do some advanced stuff, you'll need an API key. You can get one by [signing up for a __module_title account](https://__module_domain/signup).
+`gulp-responsive` depends on [sharp](https://github.com/lovell/sharp). Sharp is one of the fastest Node.js modules for resizing JPEG, PNG, WebP and TIFF images.
 
-## 📦 Install __module_title
-### Option 1: Install via npm
-Install with npm if you plan to use `__module_name` in a Node project or in the browser.
-```shell
-npm install __module_name
+If you are using Mac OS then before installing `gulp-responsive` you should install the [libvips](https://github.com/jcupitt/libvips) library. Further information and instructions can be found in the [sharp installation guide](https://sharp.pixelplumbing.com/en/stable/install/).
+
+```sh
+$ npm install --save-dev gulp-responsive
 ```
-If you plan to use `__module_name` in a browser environment, you will probably need to use [Webpack](https://www.npmjs.com/package/webpack), [Browserify](https://www.npmjs.com/package/browserify), or a similar service to compile it.
+
+## Usage
 
 ```js
-const __module_instance_name = new (require('__module_name'))({
-  // Not required, but having one removes limits (get your key at https://__module_domain).
-  apiKey: 'api_test_key'
-});
+var gulp = require('gulp')
+var responsive = require('gulp-responsive')
+
+gulp.task('default', function () {
+  return gulp
+    .src('src/*.{png,jpg}')
+    .pipe(
+      responsive({
+        'background-*.jpg': {
+          width: 700,
+          quality: 50
+        },
+        'cover.png': {
+          width: '50%',
+          // convert to jpeg format
+          format: 'jpeg',
+          rename: 'cover.jpg'
+        },
+        // produce multiple images from one source
+        'logo.png': [
+          {
+            width: 200
+          },
+          {
+            width: 200 * 2,
+            rename: 'logo@2x.png'
+          }
+        ]
+      })
+    )
+    .pipe(gulp.dest('dist'))
+})
 ```
 
-### Option 2: Install via CDN
-Install with CDN if you plan to use __module_title only in a browser environment.
-```html
-<script src="https://cdn.jsdelivr.net/npm/__module_name@latest/dist/index.min.js"></script>
-<script type="text/javascript">
-  var __module_instance_name = new __module_class_name({
-    // Not required, but having one removes limits (get your key at https://__module_domain).
-    apiKey: 'api_test_Key'
-  });
-</script>
-```
+## [Examples](./examples)
 
-### Option 3: Use without installation
-You can use `__module_name` in a variety of ways that require no installation, such as `curl` in terminal/shell.
+- [Simple example](./examples/simple.md)
+- [Multiple resolutions](./examples/multiple-resolutions.md)
+- [Advanced example](./examples/advanced.md)
 
-```shell
-# Standard
-curl -X POST https://api.__module_domain
-```
+### Integration
 
-## ⚡️ Usage
-### __module_instance_name.run(options)
+- [HTML `srcset` attribute](./examples/srcset.md)
+- [HTML `<picture>` element](./examples/picture.md)
+- [CSS `image-set` method](./examples/image-set.md)
+
+### All together :fireworks:
+
+- [`gulp-responsive` config generation example](./examples/gulp-responsive-config.md)
+
+## API
+
+### responsive([config](#config), [options](#options))
+
+#### config
+
+Configuration can be provided in one of the following formats:
+
+##### 1. Array of unique configurations
+
 ```js
-__module_instance_name.run(options);
+;[
+  {
+    name: 'logo.png',
+    width: 200,
+    height: 100
+  },
+  {
+    name: 'banner.png',
+    width: 500
+  }
+]
 ```
 
-## 📘 Using __module_title
-After you have followed the install step, you can start using `__module_name` to enhance your project.
+##### 2. Object of unique configurations. Keys are filenames.
 
-For a more in-depth documentation of this library and the __module_title service, please visit the official __module_title website.
+```js
+{
+  'logo.png': {
+    width: 300,
+    height: 200,
+    rename: 'logo@2x.png'
+  },
+  'background-*.png': {
+    width: 1400,
+    withoutEnlargement: true
+  }
+}
+```
 
-## 📝 What Can __module_title do?
-__module_description
+##### 3. Object of arrays of unique configurations. Keys are filenames.
 
-## 🗨️ Final Words
-If you are still having difficulty, we would love for you to post
-a question to [the __module_title issues page](https://github.com/__module_owner/__module_name/issues). It is much easier to answer questions that include your code and relevant files! So if you can provide them, we'd be extremely grateful (and more likely to help you find the answer!)
+```js
+{
+  'logo.png': [{
+      width: 200,
+      rename: 'logo@1x.png'
+    },{
+      width: 400,
+      rename: 'logo@2x.png'
+    }],
+  'background-*': [{
+    height: 400
+  }]
+}
+```
 
-## 📚 Projects Using this Library
-* [ITW Creative Works](https://itwcreativeworks.com)
-* [Somiibo](https://somiibo.com)
-* [Slapform](https://slapform.com)
-* [StudyMonkey](https://studymonkey.ai)
-* [DashQR](https://dashqr.com)
-* [Replyify](https://replyify.app)
-* [SoundGrail](https://soundgrail.com)
-* [Trusteroo](https://trusteroo.com)
+#### Configuration unit
 
-Ask us to have your project listed! :)
+Configuration unit is an object:
+
+- **name**: _String_ — filename glob pattern.
+- **width**: _Number_ or _String_ — width in pixels or percentage of the original, not set by default.
+- **height**: _Number_ or _String_ — height in pixels or percentage of the original, not set by default.
+- [**withoutEnlargement**](http://sharp.dimens.io/en/stable/api-resize/#withoutenlargement): _Boolean_ — do not enlarge the output image, default `true`.
+- **skipOnEnlargement**: _Boolean_ — do not write an output image at all if the original image is smaller than the configured width or height, default `false`.
+- [**min**](http://sharp.dimens.io/en/stable/api-resize/#min): _Boolean_ — preserving aspect ratio, resize the image to be as small as possible while ensuring its dimensions are greater than or equal to the `width` and `height` specified.
+- [**max**](http://sharp.dimens.io/en/stable/api-resize/#max): _Boolean_ — resize to the max width or height the preserving aspect ratio (both `width` and `height` have to be defined), default `false`.
+- [**quality**](http://sharp.dimens.io/en/stable/api/#qualityquality): _Number_ — output quality for JPEG, WebP and TIFF, default `80`.
+- [**progressive**](http://sharp.dimens.io/en/stable/api/#progressive): _Boolean_ — progressive (interlace) scan for JPEG and PNG output, default `false`.
+- [**withMetadata**](http://sharp.dimens.io/en/stable/api-output/#withmetadata): _Boolean_ — include image metadata, default `false`.
+- [**compressionLevel**](http://sharp.dimens.io/en/stable/api/#compressionlevelcompressionlevel): _Number_ — zlib compression level for PNG, default `6`.
+- [**rename**](#renaming): _String_, _Object_ or _Function_ — renaming options, file will not be renamed by default. When `extname` is specified, output format is parsed from extension. You can override this autodetection with `format` option.
+- [**format**](http://sharp.dimens.io/en/stable/api-output/#toformat): _String_ — output format `jpeg`, `png`, `webp` or `raw`, default is `null`.
+- [**crop**](http://sharp.dimens.io/en/stable/api-resize/#crop): Crop the resized image to the exact size specified, default is `false`.
+- [**embed**](http://sharp.dimens.io/en/stable/api-resize/#embed): Preserving aspect ratio, resize the image to the maximum `width` or `height` specified then `embed` on a `background` of the exact `width` and `height` specified, default is `false`.
+- [**ignoreAspectRatio**](http://sharp.dimens.io/en/stable/api-resize/#ignoreaspectratio): _Boolean_ — Ignoring the aspect ratio of the input, stretch the image to the exact `width` and/or `height` provided via `resize`, default is `false`.
+- [**kernel**](http://sharp.dimens.io/en/stable/api/#resizewidth-height-options): _String_ — The kernel to use for image **reduction**, defaulting to `lanczos3`.
+- [**background**](http://sharp.dimens.io/en/stable/api-colour/#background): [_Color_](https://www.npmjs.com/package/color) — Set the background for the embed and flatten operations, '#default is `fff`'.
+- [**flatten**](http://sharp.dimens.io/en/stable/api-operation/#flatten): _Boolean_ — Merge alpha transparency channel, if any, with `background`, default is `false`.
+- [**negate**](http://sharp.dimens.io/en/stable/api-operation/#negate): _Boolean_ — Produces the "negative" of the image, default is `false`.
+- [**rotate**](http://sharp.dimens.io/en/stable/api-operation/#rotate): _Boolean_ — Rotate the output image by either an explicit angle or auto-orient based on the EXIF `Orientation` tag, default is `false`.
+- [**flip**](http://sharp.dimens.io/en/stable/api-operation/#flip): _Boolean_ — Flip the image about the vertical Y axis. This always occurs after rotation, if any. The use of `flip` implies the removal of the EXIF `Orientation` tag, if any. Default is `false`.
+- [**flop**](http://sharp.dimens.io/en/stable/api-operation/#flop): _Boolean_ — Flop the image about the horizontal X axis. This always occurs after rotation, if any. The use of `flop` implies the removal of the EXIF `Orientation` tag, if any. Default is `false`.
+- [**blur**](http://sharp.dimens.io/en/stable/api-operation/#blur): _Boolean_ — When used without parameters, performs a fast, mild blur of the output image. This typically reduces performance by 10%. Default is `false`.
+- [**sharpen**](http://sharp.dimens.io/en/stable/api-operation/#sharpen): _Boolean_ — When used without parameters, performs a fast, mild sharpen of the output image. This typically reduces performance by 10%. Default is `false`.
+- [**threshold**](http://sharp.dimens.io/en/stable/api-operation/#threshold): _Number_ or _Boolean_ — Converts all pixels in the image to greyscale white or black, default is `false`.
+- [**gamma**](http://sharp.dimens.io/en/stable/api-operation/#gamma): _Boolean_ — Apply a gamma correction by reducing the encoding (darken) pre-resize at a factor of `1/gamma` then increasing the encoding (brighten) post-resize at a factor of `gamma`. Default is `false`.
+- [**grayscale**](http://sharp.dimens.io/en/stable/api-colour/#greyscale): _Boolean_ — Convert to 8-bit greyscale; 256 shades of grey, default is `false`.
+- [**normalize**](http://sharp.dimens.io/en/stable/api-operation/#normalise): _Boolean_ — Enhance output image contrast by stretching its luminance to cover the full dynamic range. This typically reduces performance by 30%. Default is `false`.
+- [**trim**](http://sharp.dimens.io/en/stable/api-operation/#trim): _Boolean_ or _Number_ — Trim "boring" pixels from all edges that contain values within a percentage similarity of the top-left pixel. Default is `false`.
+- [**tile**](http://sharp.dimens.io/en/stable/api-output/#tile): _Boolean_ or _Object_ — The size and overlap, in pixels, of square Deep Zoom image pyramid tiles, default is `false`.
+- [**withoutChromaSubsampling**](http://sharp.dimens.io/en/stable/api/#withoutchromasubsampling): _Boolean_ — Disable the use of [chroma subsampling](http://en.wikipedia.org/wiki/Chroma_subsampling) with JPEG output (4:4:4), default is `false`.
+
+Detailed description of each option can be found in the [sharp API documentation](http://sharp.dimens.io/en/stable/api/).
+
+##### Renaming
+
+Renaming is implemented by the [rename](https://www.npmjs.com/package/rename) module. Options correspond with options of [gulp-rename](https://www.npmjs.com/package/gulp-rename).
+
+#### options
+
+##### errorOnUnusedConfig
+
+Type: `Boolean`  
+Default: `true`
+
+Emit the error when configuration is not used.
+
+##### errorOnUnusedImage
+
+Type: `Boolean`  
+Default: `true`
+
+Emit the error when image is not used.
+
+##### passThroughUnused
+
+Type: `Boolean`  
+Default: `false`
+
+Keep unmatched images in the stream.
+To use this option `errorOnUnusedImage` should be `false`.
+
+##### errorOnEnlargement
+
+Type: `Boolean`  
+Default: `true`
+
+Emit the error when image is enlarged.
+
+##### stats
+
+Type: `Boolean`  
+Default: `true`
+
+Show statistics after the run — how many images were created, how many were matched and how many were in the run in total.
+
+##### silent
+
+Type: `Boolean`  
+Default: `false`
+
+Silence messages and stats if 0 images were created. If you wish to supress all messages and stats, set the `options.stats` to `false` as well.
+
+> You can specify **global default value** for any of the [configuration options](#configuration-unit).
+
+```js
+gulp.task('default', function () {
+  return gulp
+    .src('src/*.png')
+    .pipe(
+      responsive(config, {
+        // global quality for all images
+        quality: 50,
+        errorOnUnusedImage: false
+      })
+    )
+    .pipe(gulp.dest('dist'))
+})
+```
+
+## License
+
+MIT © [Evgeny Vlasenko](https://github.com/mahnunchik)

@@ -1,50 +1,64 @@
 {
-  "TODO": "__module_domain, __module_name, __asset_file_name, __module_owner, __module_title, __module_class_name, __module_instance_name, __module_description, __module_feature",
-  "name": "__module_name",
+  "name": "gulp-responsive-modern",
   "version": "0.0.1",
-  "description": "__module_description",
-  "main": "./dist/index.js",
-  "scripts": {
-    "start": "node ./dist/index.js",
-    "test": "npm run prepare && ./node_modules/mocha/bin/mocha test/ --recursive --timeout=10000",
-    "prepare": "node -e \"require('prepare-package')()\"",
-    "prepare:watch": "nodemon -w ./src -e '*' --exec 'npm run prepare'"
-  },
-  "preparePackage": {
-    "input": "./src",
-    "output": "./dist",
-    "replace": {}
-  },
-  "engines": {
-    "node": ">=6.0.0"
-  },
-  "os": [
-    "darwin",
-    "linux",
-    "win32"
-  ],
-  "cpu": [
-    "x64",
-    "arm64"
-  ],
+  "description": "gulp responsive images",
+  "main": "lib",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/__module_owner/__module_name"
+    "url": "git+https://github.com/itw-creative-works/gulp-responsive-modern"
+  },
+  "author": {
+    "name": "ITW Creative Works",
+    "email": "hello@itwcreativeworks.com",
+    "url": "https://github.com/itw-creative-works"
+  },
+  "engines": {
+    "node": ">=8.5.0"
+  },
+  "scripts": {
+    "test": "npm run lint && mocha",
+    "format": "prettier-standard --format --changed",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "keywords": [
-    "__module_name"
+    "gulpplugin",
+    "gulp",
+    "sharp",
+    "responsive",
+    "img",
+    "images",
+    "picture",
+    "picturefill",
+    "scrset",
+    "image-set",
+    "gulp-responsive",
+    "gulp-responsive-images"
   ],
-  "author": "ITW Creative Works",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/__module_owner/__module_name/issues"
+  "_husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
-  "homepage": "https://__module_domain",
   "dependencies": {
-    "itwcw-package-analytics": "^1.0.6"
+    "chalk": "^2.4.2",
+    "fancy-log": "^1.3.3",
+    "lodash": "^4.17.15",
+    "minimatch": "^3.0.4",
+    "plugin-error": "^1.0.1",
+    "plur": "^3.1.1",
+    "rename": "^1.0.4",
+    "sharp": "^0.33.5",
+    "through2": "^3.0.2",
+    "vinyl": "^2.2.0"
   },
   "devDependencies": {
-    "mocha": "^8.4.0",
-    "prepare-package": "^1.1.13"
+    "file-type": "^12.3.0",
+    "husky": "^3.0.8",
+    "jshint": "^2.10.2",
+    "mocha": "^6.2.1",
+    "prettier-standard": "^15.0.1",
+    "standard": "^14.3.1"
   }
 }

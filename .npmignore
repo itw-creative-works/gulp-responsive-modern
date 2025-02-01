@@ -1,5 +1,4 @@
-.codeclimate.yml
-/src/
-/test/
-/examples/
-/old/
+.jshintrc
+.travis.yml
+.editorconfig
+test
