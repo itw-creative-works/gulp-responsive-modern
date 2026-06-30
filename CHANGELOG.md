@@ -15,6 +15,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `Security` in case of vulnerabilities.
 
 ---
+## [1.0.1] - 2025-06-30
+### Fixed
+- `format.js`: Case-insensitive extension matching — `.JPG`, `.PNG`, etc. now resolve correctly instead of returning `unsupported`
+- `sharp.js`: Prefer `file.contents` buffer over `file.path` when available, fixing failures on case-sensitive filesystems where upstream transforms rename the Vinyl path
+
 ## [0.0.1] - 2025-02-01
 ### Changed
 - `package.json`
